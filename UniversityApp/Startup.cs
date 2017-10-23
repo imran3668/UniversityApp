@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using UniversityApp.Data;
 using UniversityApp.Models;
 using UniversityApp.Services;
+using ContosoUniversity.Data;
 
 namespace UniversityApp
 {
@@ -35,6 +36,8 @@ namespace UniversityApp
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddDbContext<SchoolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
         }
