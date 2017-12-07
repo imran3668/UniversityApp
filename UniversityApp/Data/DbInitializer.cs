@@ -34,7 +34,7 @@ namespace ContosoUniversity.Data
             context.SaveChanges();
 
             var courses = new Course[]
-            {
+            { //Server test data
             new Course{CourseID=1050,Title="Chemistry",Credits=3},
             new Course{CourseID=4022,Title="Microeconomics",Credits=3},
             new Course{CourseID=4041,Title="Macroeconomics",Credits=3},

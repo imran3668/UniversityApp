@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,11 @@ namespace UniversityApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.Run(context =>
+                {
+                return context.Response.WriteAsync("Hello from ASP.NET Core!");
+                });
 
             app.UseStaticFiles();
 
