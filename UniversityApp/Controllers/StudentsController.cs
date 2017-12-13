@@ -21,31 +21,19 @@ namespace UniversityApp.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? page)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
             ViewData["CurrentFilter"] = searchString;
 
             var students = from s in _context.Students
                            select s;
-
             if (!String.IsNullOrEmpty(searchString))
             {
-                students = students.Where(s => s.LastName.Contains(searchString) || s.FirstMidName.Contains(searchString));
+                students = students.Where(s => s.LastName.Contains(searchString)
+                                       || s.FirstMidName.Contains(searchString));
             }
-
             switch (sortOrder)
             {
                 case "name_desc":
@@ -61,9 +49,7 @@ namespace UniversityApp.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
-
-            int pageSize = 3;
-            return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), page ?? 1, pageSize));
+            return View(await students.AsNoTracking().ToListAsync());
         }
 
         // GET: Students/Details/5
